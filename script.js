@@ -25,6 +25,7 @@ const activityBars = document.getElementById("activity-bars");
 const taskModal = document.getElementById("task-modal");
 const addTaskButton = document.getElementById("add-task-button");
 const closeModalButton = document.getElementById("close-modal");
+const modalTitle = document.getElementById("modal-title");
 const cancelTaskButton = document.getElementById("cancel-task");
 const taskForm = document.getElementById("task-form");
 
@@ -50,6 +51,8 @@ function saveTasks() {
 function openModal() {
     taskModal.classList.remove("hidden");
 
+    modalTitle.textContent = "Add New Task";
+
     const today = new Date().toISOString().split("T")[0];
 
     taskDateInput.value = today;
@@ -62,6 +65,8 @@ function closeModal() {
     taskForm.reset();
 
     taskHoursInput.value = "1";
+
+    delete taskForm.dataset.editingId;
 }
 
 addTaskButton.addEventListener("click", openModal);
@@ -82,36 +87,63 @@ taskModal.addEventListener("click", function (event) {
 taskForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-   const title = taskTitleInput.value.trim();
-const subject = taskSubjectInput.value.trim();
-const priority = taskPriorityInput.value;
-const hours = Number(taskHoursInput.value);
-const taskDate = taskDateInput.value;
-   if (
-    !title ||
-    !subject ||
-    !taskDate ||
-    !Number.isFinite(hours) ||
-    hours < 0
-) {
-    return;
-}
+    const title = taskTitleInput.value.trim();
+    const subject = taskSubjectInput.value.trim();
+    const priority = taskPriorityInput.value;
+    const hours = Number(taskHoursInput.value);
+    const taskDate = taskDateInput.value;
 
-    const newTask = {
-    id: crypto.randomUUID
-        ? crypto.randomUUID()
-        : Date.now().toString(),
+    if (
+        !title ||
+        !subject ||
+        !taskDate ||
+        !Number.isFinite(hours) ||
+        hours < 0
+    ) {
+        return;
+    }
 
-    title: title,
-    subject: subject,
-    priority: priority,
-    hours: hours,
-    date: taskDate,
-    completed: false,
-    completedAt: null,
-    createdAt: new Date().toISOString()
-};
-    tasks.push(newTask);
+    const editingId = taskForm.dataset.editingId;
+
+    if (editingId) {
+
+        tasks = tasks.map(function (task) {
+
+            if (task.id === editingId) {
+                return {
+                    ...task,
+                    title: title,
+                    subject: subject,
+                    priority: priority,
+                    hours: hours,
+                    date: taskDate
+                };
+            }
+
+            return task;
+        });
+
+        delete taskForm.dataset.editingId;
+
+    } else {
+
+        const newTask = {
+            id: crypto.randomUUID
+                ? crypto.randomUUID()
+                : Date.now().toString(),
+
+            title: title,
+            subject: subject,
+            priority: priority,
+            hours: hours,
+            date: taskDate,
+            completed: false,
+            completedAt: null,
+            createdAt: new Date().toISOString()
+        };
+
+        tasks.push(newTask);
+    }
 
     saveTasks();
     renderDashboard();
@@ -147,6 +179,30 @@ function toggleTask(taskId) {
 }
 
 // Delete a task.
+function editTask(taskId) {
+
+    const task = tasks.find(function (item) {
+        return item.id === taskId;
+    });
+
+    if (!task) {
+        return;
+    }
+
+    modalTitle.textContent = "Edit Task";
+
+    taskTitleInput.value = task.title;
+    taskSubjectInput.value = task.subject;
+    taskPriorityInput.value = task.priority;
+    taskHoursInput.value = task.hours;
+    taskDateInput.value = task.date || "";
+
+    taskModal.classList.remove("hidden");
+
+    taskForm.dataset.editingId = taskId;
+
+    taskTitleInput.focus();
+}
 function deleteTask(taskId) {
     tasks = tasks.filter(function (task) {
         return task.id !== taskId;
@@ -231,24 +287,34 @@ taskSubject.textContent =
             task.priority.charAt(0).toUpperCase() +
             task.priority.slice(1);
 
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "task-delete";
-        deleteButton.type = "button";
-        deleteButton.textContent = "×";
-        deleteButton.setAttribute("aria-label", "Delete task");
+       const editButton = document.createElement("button");
+editButton.className = "task-edit";
+editButton.type = "button";
+editButton.textContent = "Edit";
+editButton.setAttribute("aria-label", "Edit task");
+
+const deleteButton = document.createElement("button");
+deleteButton.className = "task-delete";
+deleteButton.type = "button";
+deleteButton.textContent = "×";
+deleteButton.setAttribute("aria-label", "Delete task");
 
         checkButton.addEventListener("click", function () {
             toggleTask(task.id);
         });
 
+       editButton.addEventListener("click", function () {
+    editTask(task.id);
+});
         deleteButton.addEventListener("click", function () {
             deleteTask(task.id);
         });
 
         taskItem.appendChild(checkButton);
         taskItem.appendChild(taskDetails);
-        taskItem.appendChild(priorityBadge);
-        taskItem.appendChild(deleteButton);
+       taskItem.appendChild(priorityBadge);
+taskItem.appendChild(editButton);
+taskItem.appendChild(deleteButton);
 
         taskList.appendChild(taskItem);
     });

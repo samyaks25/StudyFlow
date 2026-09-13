@@ -745,3 +745,17 @@ a {
     }
 
 }
+.task-edit {
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.task-edit:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}

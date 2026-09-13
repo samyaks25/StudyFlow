@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyFlow | Student Productivity Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Main application container -->
+    <div class="app-container">
+
+        <!-- Sidebar navigation -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h1>StudyFlow</h1>
+                <p>Study smarter.</p>
+            </div>
+
+            <nav class="navigation">
+                <a href="#" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">My Tasks</a>
+                <a href="#" class="nav-link">Study Planner</a>
+                <a href="#" class="nav-link">Progress</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Stay consistent.</p>
+            </div>
+
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <header class="top-header">
+                <div>
+                    <p class="header-label">STUDENT PRODUCTIVITY</p>
+                    <h2>Dashboard</h2>
+                </div>
+
+                <div class="profile">
+                    <span class="profile-avatar">S</span>
+                    <span>Student</span>
+                </div>
+            </header>
+
+            <!-- Welcome section -->
+            <section class="welcome-section">
+                <p class="section-label">YOUR STUDY SPACE</p>
+                <h2>Welcome back, Student!</h2>
+                <p>Let's make today productive.</p>
+            </section>
+
+            <!-- Statistics -->
+            <section class="stats-grid">
+
+                <article class="stat-card">
+                    <p class="stat-label">Total Tasks</p>
+                    <h3>12</h3>
+                    <p class="stat-description">Tasks in your list</p>
+                </article>
+
+                <article class="stat-card">
+                    <p class="stat-label">Completed</p>
+                    <h3>8</h3>
+                    <p class="stat-description">Tasks finished</p>
+                </article>
+
+                <article class="stat-card">
+                    <p class="stat-label">Study Hours</p>
+                    <h3>4.5</h3>
+                    <p class="stat-description">Hours this week</p>
+                </article>
+
+                <article class="stat-card">
+                    <p class="stat-label">Completion Rate</p>
+                    <h3>67%</h3>
+                    <p class="stat-description">Overall progress</p>
+                </article>
+
+            </section>
+
+            <!-- Dashboard content grid -->
+            <section class="dashboard-grid">
+
+                <!-- Today's tasks -->
+                <article class="panel tasks-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <p class="section-label">YOUR WORK</p>
+                            <h3>Today's Tasks</h3>
+                        </div>
+
+                        <button class="secondary-button">View all</button>
+                    </div>
+
+                    <div class="task-list">
+
+                        <div class="task-item">
+                            <div class="task-check"></div>
+
+                            <div class="task-details">
+                                <h4>Complete HTML practice</h4>
+                                <p>Web Development</p>
+                            </div>
+
+                            <span class="priority high">High</span>
+                        </div>
+
+                        <div class="task-item">
+                            <div class="task-check"></div>
+
+                            <div class="task-details">
+                                <h4>Revise mathematics</h4>
+                                <p>Mathematics</p>
+                            </div>
+
+                            <span class="priority medium">Medium</span>
+                        </div>
+
+                        <div class="task-item">
+                            <div class="task-check"></div>
+
+                            <div class="task-details">
+                                <h4>Read programming notes</h4>
+                                <p>Computer Science</p>
+                            </div>
+
+                            <span class="priority low">Low</span>
+                        </div>
+
+                    </div>
+
+                    <button class="primary-button">+ Add New Task</button>
+
+                </article>
+
+                <!-- Progress panel -->
+                <article class="panel progress-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <p class="section-label">YOUR PERFORMANCE</p>
+                            <h3>Study Progress</h3>
+                        </div>
+                    </div>
+
+                    <div class="progress-summary">
+                        <h4>Weekly Goal</h4>
+                        <p>4.5 of 10 study hours completed</p>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+
+                        <p class="progress-percentage">45% completed</p>
+                    </div>
+
+                    <div class="weekly-activity">
+                        <h4>Weekly Activity</h4>
+
+                        <div class="activity-bars">
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 45%;"></div>
+                                <span>Mon</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 70%;"></div>
+                                <span>Tue</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 35%;"></div>
+                                <span>Wed</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 85%;"></div>
+                                <span>Thu</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 60%;"></div>
+                                <span>Fri</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 25%;"></div>
+                                <span>Sat</span>
+                            </div>
+
+                            <div class="activity-day">
+                                <div class="activity-bar" style="height: 15%;"></div>
+                                <span>Sun</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- JavaScript file -->
+    <script src="script.js"></script>
+
+</body>
+</html>

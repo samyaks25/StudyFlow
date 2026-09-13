@@ -59,158 +59,186 @@
                 <p>Let's make today productive.</p>
             </section>
 
-            <!-- Statistics -->
-            <section class="stats-grid">
+           
+               
+<!-- Statistics -->
+<section class="stats-grid">
 
-                <article class="stat-card">
-                    <p class="stat-label">Total Tasks</p>
-                    <h3>12</h3>
-                    <p class="stat-description">Tasks in your list</p>
-                </article>
+    <article class="stat-card">
+        <p class="stat-label">Total Tasks</p>
+        <h3 id="total-tasks">0</h3>
+        <p class="stat-description">Tasks in your list</p>
+    </article>
 
-                <article class="stat-card">
-                    <p class="stat-label">Completed</p>
-                    <h3>8</h3>
-                    <p class="stat-description">Tasks finished</p>
-                </article>
+    <article class="stat-card">
+        <p class="stat-label">Completed</p>
+        <h3 id="completed-tasks">0</h3>
+        <p class="stat-description">Tasks finished</p>
+    </article>
 
-                <article class="stat-card">
-                    <p class="stat-label">Study Hours</p>
-                    <h3>4.5</h3>
-                    <p class="stat-description">Hours this week</p>
-                </article>
+    <article class="stat-card">
+        <p class="stat-label">Study Hours</p>
+        <h3 id="study-hours">0</h3>
+        <p class="stat-description">Hours this week</p>
+    </article>
 
-                <article class="stat-card">
-                    <p class="stat-label">Completion Rate</p>
-                    <h3>67%</h3>
-                    <p class="stat-description">Overall progress</p>
-                </article>
+    <article class="stat-card">
+        <p class="stat-label">Completion Rate</p>
+        <h3 id="completion-rate">0%</h3>
+        <p class="stat-description">Overall progress</p>
+    </article>
 
-            </section>
+</section>
+
 
             <!-- Dashboard content grid -->
             <section class="dashboard-grid">
 
                 <!-- Today's tasks -->
-                <article class="panel tasks-panel">
+               
+<!-- Today's tasks -->
+<article class="panel tasks-panel">
 
-                    <div class="panel-header">
-                        <div>
-                            <p class="section-label">YOUR WORK</p>
-                            <h3>Today's Tasks</h3>
-                        </div>
+    <div class="panel-header">
+        <div>
+            <p class="section-label">YOUR WORK</p>
+            <h3>Task list</h3>
+        </div>
 
-                        <button class="secondary-button">View all</button>
-                    </div>
+        <select id="task-filter" class="task-filter">
+            <option value="all">All Tasks</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+        </select>
+    </div>
 
-                    <div class="task-list">
+    <!-- Tasks will be inserted here by JavaScript -->
+    <div id="task-list" class="task-list"></div>
 
-                        <div class="task-item">
-                            <div class="task-check"></div>
+    <p id="empty-state" class="empty-state">
+        No tasks yet. Add your first task!
+    </p>
 
-                            <div class="task-details">
-                                <h4>Complete HTML practice</h4>
-                                <p>Web Development</p>
-                            </div>
+    <button id="add-task-button" class="primary-button">
+        + Add New Task
+    </button>
 
-                            <span class="priority high">High</span>
-                        </div>
-
-                        <div class="task-item">
-                            <div class="task-check"></div>
-
-                            <div class="task-details">
-                                <h4>Revise mathematics</h4>
-                                <p>Mathematics</p>
-                            </div>
-
-                            <span class="priority medium">Medium</span>
-                        </div>
-
-                        <div class="task-item">
-                            <div class="task-check"></div>
-
-                            <div class="task-details">
-                                <h4>Read programming notes</h4>
-                                <p>Computer Science</p>
-                            </div>
-
-                            <span class="priority low">Low</span>
-                        </div>
-
-                    </div>
-
-                    <button class="primary-button">+ Add New Task</button>
-
-                </article>
+</article>
 
                 <!-- Progress panel -->
-                <article class="panel progress-panel">
+              
+<!-- Progress panel -->
+<article class="panel progress-panel">
 
-                    <div class="panel-header">
-                        <div>
-                            <p class="section-label">YOUR PERFORMANCE</p>
-                            <h3>Study Progress</h3>
-                        </div>
-                    </div>
+    <div class="panel-header">
+        <div>
+            <p class="section-label">YOUR PERFORMANCE</p>
+            <h3>Study Progress</h3>
+        </div>
+    </div>
 
-                    <div class="progress-summary">
-                        <h4>Weekly Goal</h4>
-                        <p>4.5 of 10 study hours completed</p>
+    <div class="progress-summary">
+        <h4>Weekly Goal</h4>
+        <p>
+            <span id="weekly-hours">0</span>
+            of 10 study hours completed
+        </p>
 
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                        </div>
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
 
-                        <p class="progress-percentage">45% completed</p>
-                    </div>
+        <p id="progress-percentage" class="progress-percentage">
+            0% completed
+        </p>
+    </div>
 
-                    <div class="weekly-activity">
-                        <h4>Weekly Activity</h4>
+    <div class="weekly-activity">
+        <h4>Weekly Activity</h4>
 
-                        <div class="activity-bars">
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 45%;"></div>
-                                <span>Mon</span>
-                            </div>
+        <div id="activity-bars" class="activity-bars">
+            <!-- Activity bars will be generated by JavaScript -->
+        </div>
+    </div>
 
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 70%;"></div>
-                                <span>Tue</span>
-                            </div>
-
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 35%;"></div>
-                                <span>Wed</span>
-                            </div>
-
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 85%;"></div>
-                                <span>Thu</span>
-                            </div>
-
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 60%;"></div>
-                                <span>Fri</span>
-                            </div>
-
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 25%;"></div>
-                                <span>Sat</span>
-                            </div>
-
-                            <div class="activity-day">
-                                <div class="activity-bar" style="height: 15%;"></div>
-                                <span>Sun</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </article>
+</article>
 
             </section>
 
-        </main>
+        
+<!-- Add task modal -->
+<div id="task-modal" class="modal hidden">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Add New Task</h3>
+
+            <button id="close-modal" class="close-button"
+                    aria-label="Close form">
+                &times;
+            </button>
+        </div>
+
+        <form id="task-form">
+
+            <label for="task-title">Task title</label>
+            <input
+                type="text"
+                id="task-title"
+                placeholder="e.g. Complete JavaScript practice"
+                required
+            >
+
+            <label for="task-subject">Subject</label>
+            <input
+                type="text"
+                id="task-subject"
+                placeholder="e.g. Web Development"
+                required
+            >
+
+            <label for="task-priority">Priority</label>
+            <select id="task-priority" required>
+                <option value="high">High</option>
+                <option value="medium" selected>Medium</option>
+                <option value="low">Low</option>
+            </select>
+
+            <label for="task-hours">Study hours</label>
+            <input
+                type="number"
+                id="task-hours"
+                min="0"
+                max="24"
+                step="0.5"
+                value="1"
+                required
+            >
+            <label for="task-date">Task date</label>
+<input
+    type="date"
+    id="task-date"
+    required
+>
+
+            <div class="form-actions">
+                <button type="button" id="cancel-task"
+                        class="secondary-button">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-button">
+                    Add Task
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</main>
 
     </div>
 

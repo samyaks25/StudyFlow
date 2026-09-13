@@ -2,6 +2,11 @@
 
 A responsive student productivity dashboard for managing tasks and tracking study progress.
 
+**Live Demo:** [StudyFlow](https://samyaks25.github.io/StudyFlow/)
+## Preview
+
+![StudyFlow Dashboard](studyflow-dashboard.png)
+**Repository:** [GitHub](https://github.com/samyaks25/StudyFlow)
 ## Features
 
 - Create, edit, and delete study tasks

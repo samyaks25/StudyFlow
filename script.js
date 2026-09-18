@@ -777,14 +777,15 @@
             this.taskManager = new TaskManager();
             this.plannerMonday = DateUtils.getMonday(new Date());
 
-            // Initialize Timer
-            this.timer = new StudyTimer(
-                this.taskManager,
-                (state) => this.updateTimerUI(state),
-                (completion) => this.handleTimerCompleted(completion)
-            );
+            // ── IMPORTANT: DOM must be queried BEFORE constructing StudyTimer.
+            // StudyTimer.constructor calls initSettings() → setMode() → onTick()
+            // synchronously during construction. That onTick fires updateTimerUI(),
+            // which reads this.dom and this.timer. Both must exist by that point.
+            // this.timer is kept null until after the constructor returns, and
+            // updateTimerUI() guards against that window with an early-return.
+            this.timer = null;
 
-            // Query DOM References
+            // Query DOM References FIRST (before StudyTimer construction)
             this.dom = {
                 // Navigation
                 sidebar: document.getElementById('app-sidebar'),
@@ -927,6 +928,16 @@
                 // Toast Container
                 toastContainer: document.getElementById('toast-container')
             };
+
+            // Now that this.dom exists, construct StudyTimer. Its constructor calls
+            // initSettings() → setMode() → onTick() synchronously, which triggers
+            // updateTimerUI(). The defensive guard there will skip heavy DOM writes
+            // while this.timer is still null, then this assignment completes the init.
+            this.timer = new StudyTimer(
+                this.taskManager,
+                (state) => this.updateTimerUI(state),
+                (completion) => this.handleTimerCompleted(completion)
+            );
 
             this.currentView = this.taskManager.settings.activeView || 'dashboard';
             this.tasksFilterState = {
@@ -1886,6 +1897,11 @@
         }
 
         updateTimerUI(state) {
+            // Defensive guard: this.timer may be null during the brief window when
+            // StudyTimer's constructor fires onTick() before the assignment completes.
+            // Also guards against missing DOM elements in unusual environments.
+            if (!this.timer || !this.dom || !this.dom.mainTimerDigits) return;
+
             const timeFormatted = this.timer.formatTime(state.remainingSeconds);
 
             // 1. Digital Display

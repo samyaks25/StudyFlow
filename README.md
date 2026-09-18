@@ -5,7 +5,7 @@ A complete, offline-first student productivity web application — no backend, n
 **Live Demo:** [https://samyaks25.github.io/StudyFlow/](https://samyaks25.github.io/StudyFlow/)  
 **Repository:** [github.com/samyaks25/StudyFlow](https://github.com/samyaks25/StudyFlow)
 
-![StudyFlow Dashboard](studyflow-dashboard.png)
+
 
 ---
 
@@ -115,7 +115,6 @@ StudyFlow/
 ├── icon-512.png          # PWA icon 512×512 (PNG, required by manifest)
 ├── .gitignore            # Ignores node_modules, .DS_Store, graphify-out/, etc.
 ├── README.md             # This file
-├── studyflow-dashboard.png  # Preview screenshot
 └── tests/
     ├── test-runner.js    # Node.js unit/integration tests (10 tests)
     └── ui-simulation.js  # localStorage persistence simulation tests
@@ -252,4 +251,4 @@ StudyFlow stores all data locally in your browser's `localStorage`. No data is e
 
 ## License
 
-MIT — free to use, modify, and redistribute. See [LICENSE](LICENSE) if present, or assume standard MIT terms.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

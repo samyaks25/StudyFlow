@@ -1,0 +1,22 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor & IDE directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Package managers (if any tests or tools run locally)
+node_modules/
+npm-debug.log*
+
+# Graphify analysis & cache artifacts (local dev only)
+graphify-out/
+.graphify*
+
+# Temporary test / scratch files
+scratch/
+*.tmp

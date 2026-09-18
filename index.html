@@ -1,248 +1,856 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StudyFlow - A responsive student productivity dashboard for managing tasks, planning study schedules, tracking progress, and timing focus sessions.">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="StudyFlow">
 
-    <title>StudyFlow | Student Productivity Dashboard</title>
+    <title>StudyFlow | Student Productivity & Study Planner</title>
 
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- Accessible skip to main content -->
+    <a href="#main-content-region" class="skip-link">Skip to main content</a>
+
     <!-- Main application container -->
     <div class="app-container">
 
         <!-- Sidebar navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="app-sidebar" aria-label="Main Navigation">
 
-            <div class="logo">
-                <h1>StudyFlow</h1>
-                <p>Study smarter.</p>
+            <div class="sidebar-top">
+                <div class="logo">
+                    <div class="logo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            <polyline points="10 8 14 12 10 16"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1>StudyFlow</h1>
+                        <p>Study smarter.</p>
+                    </div>
+                </div>
+
+                <button id="sidebar-close-btn" class="icon-button mobile-only" type="button" aria-label="Close navigation menu">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
-            <nav class="navigation">
-                <a href="#" class="nav-link active">Dashboard</a>
-                <a href="#" class="nav-link">My Tasks</a>
-                <a href="#" class="nav-link">Study Planner</a>
-                <a href="#" class="nav-link">Progress</a>
+            <nav class="navigation" aria-label="App sections">
+                <button type="button" class="nav-link active" data-view="dashboard" id="nav-dashboard">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+
+                <button type="button" class="nav-link" data-view="tasks" id="nav-tasks">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    <span>My Tasks</span>
+                    <span class="nav-badge" id="nav-pending-count" aria-label="pending tasks count">0</span>
+                </button>
+
+                <button type="button" class="nav-link" data-view="planner" id="nav-planner">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>Study Planner</span>
+                </button>
+
+                <button type="button" class="nav-link" data-view="progress" id="nav-progress">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>Progress &amp; Analytics</span>
+                </button>
+
+                <button type="button" class="nav-link" data-view="timer" id="nav-timer">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Focus Timer</span>
+                </button>
+
+                <button type="button" class="nav-link" data-view="settings" id="nav-settings">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span>Backup &amp; Settings</span>
+                </button>
             </nav>
 
+            <div class="sidebar-timer-widget" id="sidebar-mini-timer" aria-live="polite">
+                <div class="mini-timer-info">
+                    <span class="mini-timer-label">FOCUS SESSION</span>
+                    <span class="mini-timer-digits" id="mini-timer-digits">25:00</span>
+                </div>
+                <button type="button" class="mini-timer-btn" id="mini-timer-toggle" aria-label="Start or pause timer">
+                    <svg id="mini-timer-icon-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <svg id="mini-timer-icon-pause" class="hidden" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                </button>
+            </div>
+
             <div class="sidebar-footer">
-                <p>Stay consistent.</p>
+                <p>Study smarter, stay consistent.</p>
+                <span class="app-version">v2.0 • Offline Ready</span>
             </div>
 
         </aside>
 
-        <!-- Main content -->
-        <main class="main-content">
+        <!-- Sidebar overlay for mobile viewports -->
+        <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
 
-            <!-- Header -->
+        <!-- Main content area -->
+        <main class="main-content" id="main-content-region" tabindex="-1">
+
+            <!-- Top App Header -->
             <header class="top-header">
-                <div>
-                    <p class="header-label">STUDENT PRODUCTIVITY</p>
-                    <h2>Dashboard</h2>
+                <div class="header-left">
+                    <button id="mobile-menu-toggle" class="icon-button mobile-only" type="button" aria-label="Open navigation menu">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div>
+                        <p class="header-label" id="current-view-kicker">STUDENT PRODUCTIVITY</p>
+                        <h2 id="current-view-title">Dashboard</h2>
+                    </div>
                 </div>
 
-                <div class="profile">
-                    <span class="profile-avatar">S</span>
-                    <span>Student</span>
+                <div class="header-actions">
+                    <button type="button" class="header-timer-pill" id="header-timer-btn" title="Open Focus Timer">
+                        <span class="timer-dot" id="header-timer-dot"></span>
+                        <span id="header-timer-text">Timer 25m</span>
+                    </button>
+
+                    <button type="button" class="primary-button add-task-trigger" id="global-add-task-btn">
+                        <span aria-hidden="true">+</span> Add Task
+                    </button>
+
+                    <div class="profile" aria-label="User Profile">
+                        <span class="profile-avatar" title="Student User">S</span>
+                        <span class="profile-name">Student</span>
+                    </div>
                 </div>
             </header>
 
-            <!-- Welcome section -->
-            <section class="welcome-section">
-                <p class="section-label">YOUR STUDY SPACE</p>
-                <h2>Welcome back, Student!</h2>
-                <p>Let's make today productive.</p>
-            </section>
+            <!-- =========================================
+                 VIEW 1: DASHBOARD
+                 ========================================= -->
+            <div class="view-container active" id="view-dashboard" role="region" aria-label="Dashboard Overview">
 
-           
-               
-<!-- Statistics -->
-<section class="stats-grid">
+                <!-- Welcome banner -->
+                <section class="welcome-section">
+                    <div class="welcome-content">
+                        <p class="section-label" id="dashboard-date-label">YOUR STUDY SPACE</p>
+                        <h2 id="dashboard-greeting">Welcome back, Student!</h2>
+                        <p id="dashboard-subtext">Ready to make today productive? Track tasks, plan your study blocks, and log focus hours.</p>
+                    </div>
+                    <div class="welcome-stats-pill" id="dashboard-streak-pill">
+                        <span class="streak-flame" aria-hidden="true">🔥</span>
+                        <span id="study-streak-text">Study Streak: 1 day</span>
+                    </div>
+                </section>
 
-    <article class="stat-card">
-        <p class="stat-label">Total Tasks</p>
-        <h3 id="total-tasks">0</h3>
-        <p class="stat-description">Tasks in your list</p>
-    </article>
+                <!-- Statistics Grid -->
+                <section class="stats-grid" aria-label="Productivity Metrics">
+                    <article class="stat-card" tabindex="0">
+                        <div class="stat-header">
+                            <span class="stat-label">Total Tasks</span>
+                            <span class="stat-icon stat-icon-blue" aria-hidden="true">📋</span>
+                        </div>
+                        <h3 id="total-tasks">0</h3>
+                        <p class="stat-description"><span id="pending-tasks-count">0</span> pending to do</p>
+                    </article>
 
-    <article class="stat-card">
-        <p class="stat-label">Completed</p>
-        <h3 id="completed-tasks">0</h3>
-        <p class="stat-description">Tasks finished</p>
-    </article>
+                    <article class="stat-card" tabindex="0">
+                        <div class="stat-header">
+                            <span class="stat-label">Completed</span>
+                            <span class="stat-icon stat-icon-green" aria-hidden="true">✅</span>
+                        </div>
+                        <h3 id="completed-tasks">0</h3>
+                        <p class="stat-description">Tasks finished all-time</p>
+                    </article>
 
-    <article class="stat-card">
-        <p class="stat-label">Study Hours</p>
-        <h3 id="study-hours">0</h3>
-        <p class="stat-description">Hours this week</p>
-    </article>
+                    <article class="stat-card" tabindex="0">
+                        <div class="stat-header">
+                            <span class="stat-label">Hours This Week</span>
+                            <span class="stat-icon stat-icon-amber" aria-hidden="true">⏱️</span>
+                        </div>
+                        <h3 id="study-hours">0.0</h3>
+                        <p class="stat-description"><span id="stat-alltime-hours">0.0</span> total all-time</p>
+                    </article>
 
-    <article class="stat-card">
-        <p class="stat-label">Completion Rate</p>
-        <h3 id="completion-rate">0%</h3>
-        <p class="stat-description">Overall progress</p>
-    </article>
+                    <article class="stat-card" tabindex="0">
+                        <div class="stat-header">
+                            <span class="stat-label">Completion Rate</span>
+                            <span class="stat-icon stat-icon-purple" aria-hidden="true">📈</span>
+                        </div>
+                        <h3 id="completion-rate">0%</h3>
+                        <p class="stat-description" id="completion-rate-sub">Overall progress</p>
+                    </article>
+                </section>
 
-</section>
+                <!-- Main Dashboard Grid -->
+                <div class="dashboard-grid">
 
+                    <!-- Left Column: Tasks Panel & Upcoming Deadlines -->
+                    <div class="dashboard-column">
 
-            <!-- Dashboard content grid -->
-            <section class="dashboard-grid">
+                        <!-- Task list panel -->
+                        <article class="panel tasks-panel">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="section-label">YOUR WORK</p>
+                                    <h3>Task list</h3>
+                                </div>
 
-                <!-- Today's tasks -->
-               
-<!-- Today's tasks -->
-<article class="panel tasks-panel">
+                                <div class="panel-controls">
+                                    <label for="dashboard-task-filter" class="sr-only">Filter tasks</label>
+                                    <select id="dashboard-task-filter" class="task-filter select-compact">
+                                        <option value="all">All Tasks</option>
+                                        <option value="pending" selected>Pending</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
 
-    <div class="panel-header">
-        <div>
-            <p class="section-label">YOUR WORK</p>
-            <h3>Task list</h3>
-        </div>
+                            <!-- Dynamic task list -->
+                            <div id="dashboard-task-list" class="task-list" role="list"></div>
 
-        <select id="task-filter" class="task-filter">
-            <option value="all">All Tasks</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
-        </select>
-    </div>
+                            <!-- Empty state -->
+                            <div id="dashboard-empty-state" class="empty-state">
+                                <div class="empty-state-icon" aria-hidden="true">📝</div>
+                                <p class="empty-title">No tasks found</p>
+                                <p class="empty-desc">Add a study task to plan out your day.</p>
+                            </div>
 
-    <!-- Tasks will be inserted here by JavaScript -->
-    <div id="task-list" class="task-list"></div>
+                            <div class="panel-footer">
+                                <button type="button" class="primary-button add-task-trigger">
+                                    + Add New Task
+                                </button>
+                                <button type="button" class="secondary-button" id="btn-view-all-tasks">
+                                    View in My Tasks &rarr;
+                                </button>
+                            </div>
+                        </article>
 
-    <p id="empty-state" class="empty-state">
-        No tasks yet. Add your first task!
-    </p>
+                        <!-- Upcoming Deadlines & Due Today -->
+                        <article class="panel deadlines-panel">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="section-label">TIMELINE</p>
+                                    <h3>Upcoming Deadlines</h3>
+                                </div>
+                            </div>
+                            <div id="deadlines-list" class="deadlines-list" role="list"></div>
+                            <div id="deadlines-empty" class="empty-state compact">
+                                <p class="empty-desc">No imminent deadlines in the next 3 days!</p>
+                            </div>
+                        </article>
 
-    <button id="add-task-button" class="primary-button">
-        + Add New Task
-    </button>
+                    </div>
 
-</article>
+                    <!-- Right Column: Goal, Activity Chart & Timer Widget -->
+                    <div class="dashboard-column">
 
-                <!-- Progress panel -->
-              
-<!-- Progress panel -->
-<article class="panel progress-panel">
+                        <!-- Study Progress & Goal Panel -->
+                        <article class="panel progress-panel">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="section-label">YOUR PERFORMANCE</p>
+                                    <h3>Weekly Goal &amp; Progress</h3>
+                                </div>
+                                <button type="button" class="text-button" id="btn-open-goal-modal" aria-label="Change weekly goal target">
+                                    Edit Goal
+                                </button>
+                            </div>
 
-    <div class="panel-header">
-        <div>
-            <p class="section-label">YOUR PERFORMANCE</p>
-            <h3>Study Progress</h3>
-        </div>
-    </div>
+                            <div class="progress-summary">
+                                <div class="goal-header-row">
+                                    <h4>Weekly Study Target</h4>
+                                    <span class="goal-badge" id="goal-status-badge">In Progress</span>
+                                </div>
+                                <p class="goal-numbers">
+                                    <strong id="weekly-hours">0.0</strong> of <span id="weekly-goal-target">10.0</span> study hours completed
+                                </p>
 
-    <div class="progress-summary">
-        <h4>Weekly Goal</h4>
-        <p>
-            <span id="weekly-hours">0</span>
-            of 10 study hours completed
-        </p>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-container">
+                                    <div id="progress-fill" class="progress-fill"></div>
+                                </div>
 
-        <div class="progress-bar">
-            <div id="progress-fill" class="progress-fill"></div>
-        </div>
+                                <div class="progress-meta-row">
+                                    <span id="progress-remaining-text">10.0 hours remaining</span>
+                                    <span id="progress-percentage" class="progress-percentage">0% completed</span>
+                                </div>
+                            </div>
 
-        <p id="progress-percentage" class="progress-percentage">
-            0% completed
-        </p>
-    </div>
+                            <!-- Weekly Activity Bar Chart -->
+                            <div class="weekly-activity">
+                                <div class="activity-header">
+                                    <h4>Weekly Activity (Current Week)</h4>
+                                    <span class="activity-week-range" id="activity-week-range">Mon – Sun</span>
+                                </div>
 
-    <div class="weekly-activity">
-        <h4>Weekly Activity</h4>
+                                <div id="activity-bars" class="activity-bars" role="region" aria-label="Study hours histogram by weekday">
+                                    <!-- Dynamic Activity bars rendered by JS -->
+                                </div>
+                            </div>
+                        </article>
 
-        <div id="activity-bars" class="activity-bars">
-            <!-- Activity bars will be generated by JavaScript -->
-        </div>
-    </div>
+                        <!-- Quick Timer Launch Card -->
+                        <article class="panel quick-timer-card">
+                            <div class="quick-timer-body">
+                                <div class="quick-timer-text">
+                                    <p class="section-label">FOCUS SPRINT</p>
+                                    <h3>Study Timer</h3>
+                                    <p>Ready to focus? Run a 25-minute Pomodoro session with auto-logged study time.</p>
+                                </div>
+                                <button type="button" class="primary-button" id="dashboard-launch-timer-btn">
+                                    Launch Focus Timer &rarr;
+                                </button>
+                            </div>
+                        </article>
 
-</article>
+                    </div>
 
-            </section>
+                </div>
 
-        
-<!-- Add task modal -->
-<div id="task-modal" class="modal hidden">
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <h3 id="modal-title">Add New Task</h3>
-
-            <button id="close-modal" class="close-button"
-                    aria-label="Close form">
-                &times;
-            </button>
-        </div>
-
-        <form id="task-form">
-
-            <label for="task-title">Task title</label>
-            <input
-                type="text"
-                id="task-title"
-                placeholder="e.g. Complete JavaScript practice"
-                required
-            >
-
-            <label for="task-subject">Subject</label>
-            <input
-                type="text"
-                id="task-subject"
-                placeholder="e.g. Web Development"
-                required
-            >
-
-            <label for="task-priority">Priority</label>
-            <select id="task-priority" required>
-                <option value="high">High</option>
-                <option value="medium" selected>Medium</option>
-                <option value="low">Low</option>
-            </select>
-
-            <label for="task-hours">Study hours</label>
-            <input
-                type="number"
-                id="task-hours"
-                min="0"
-                max="24"
-                step="0.5"
-                value="1"
-                required
-            >
-            <label for="task-date">Task date</label>
-<input
-    type="date"
-    id="task-date"
-    required
->
-
-            <div class="form-actions">
-                <button type="button" id="cancel-task"
-                        class="secondary-button">
-                    Cancel
-                </button>
-
-                <button type="submit" class="primary-button">
-                    Add Task
-                </button>
             </div>
 
-        </form>
+            <!-- =========================================
+                 VIEW 2: MY TASKS
+                 ========================================= -->
+            <div class="view-container" id="view-tasks" role="region" aria-label="Task Management Hub">
+
+                <div class="tasks-hub-header">
+                    <!-- Search & Filter Controls -->
+                    <div class="tasks-toolbar">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <label for="task-search-input" class="sr-only">Search tasks by title or subject</label>
+                            <input type="search" id="task-search-input" placeholder="Search tasks, subjects, notes..." autocomplete="off">
+                            <button type="button" id="task-search-clear" class="search-clear-btn hidden" aria-label="Clear search text">&times;</button>
+                        </div>
+
+                        <div class="toolbar-dropdowns">
+                            <!-- Subject Filter -->
+                            <label for="filter-subject" class="sr-only">Filter by subject</label>
+                            <select id="filter-subject" class="task-filter">
+                                <option value="all">All Subjects</option>
+                            </select>
+
+                            <!-- Priority Filter -->
+                            <label for="filter-priority" class="sr-only">Filter by priority</label>
+                            <select id="filter-priority" class="task-filter">
+                                <option value="all">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+
+                            <!-- Sort Selector -->
+                            <label for="sort-tasks-by" class="sr-only">Sort tasks by</label>
+                            <select id="sort-tasks-by" class="task-filter">
+                                <option value="date-asc">Due Date (Earliest)</option>
+                                <option value="date-desc">Due Date (Latest)</option>
+                                <option value="priority-desc">Priority (High to Low)</option>
+                                <option value="priority-asc">Priority (Low to High)</option>
+                                <option value="hours-desc">Duration (Longest)</option>
+                                <option value="hours-asc">Duration (Shortest)</option>
+                                <option value="created-desc">Date Created (Newest)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Status Tabs -->
+                    <div class="tasks-status-tabs" role="tablist" aria-label="Task Status Filter">
+                        <button type="button" class="tab-button active" role="tab" aria-selected="true" data-status="all" id="tab-all-tasks">
+                            All <span class="tab-count" id="count-tab-all">0</span>
+                        </button>
+                        <button type="button" class="tab-button" role="tab" aria-selected="false" data-status="pending" id="tab-pending-tasks">
+                            Pending <span class="tab-count" id="count-tab-pending">0</span>
+                        </button>
+                        <button type="button" class="tab-button" role="tab" aria-selected="false" data-status="completed" id="tab-completed-tasks">
+                            Completed <span class="tab-count" id="count-tab-completed">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dedicated Task List Container -->
+                <div class="panel my-tasks-card">
+                    <div class="my-tasks-meta-bar">
+                        <span id="filtered-task-summary">Showing all tasks</span>
+                        <button type="button" class="text-button" id="btn-quick-clean-completed">Clear Completed</button>
+                    </div>
+
+                    <div id="my-tasks-list" class="task-list" role="list"></div>
+
+                    <!-- Empty state -->
+                    <div id="my-tasks-empty-state" class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">🎯</div>
+                        <p class="empty-title">No matching tasks</p>
+                        <p class="empty-desc">Create your next task or clear current search filters.</p>
+                        <button type="button" class="primary-button add-task-trigger" style="margin-top: 14px; width: auto;">
+                            + Create a Task
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- =========================================
+                 VIEW 3: STUDY PLANNER (WEEKLY CALENDAR)
+                 ========================================= -->
+            <div class="view-container" id="view-planner" role="region" aria-label="Weekly Study Planner">
+
+                <div class="planner-header">
+                    <div class="planner-title-group">
+                        <p class="section-label">SCHEDULE &amp; DEADLINES</p>
+                        <h3 id="planner-week-title">Week of September 15 – 21, 2026</h3>
+                    </div>
+
+                    <div class="planner-nav-controls">
+                        <button type="button" class="secondary-button" id="planner-prev-week" aria-label="Go to previous week">&larr; Previous</button>
+                        <button type="button" class="secondary-button" id="planner-today-btn">Current Week</button>
+                        <button type="button" class="secondary-button" id="planner-next-week" aria-label="Go to next week">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Planner 7-Day Weekly Grid -->
+                <div class="planner-grid" id="planner-grid">
+                    <!-- Dynamic 7 day columns (Mon to Sun) populated by JS -->
+                </div>
+
+            </div>
+
+            <!-- =========================================
+                 VIEW 4: PROGRESS & ANALYTICS
+                 ========================================= -->
+            <div class="view-container" id="view-progress" role="region" aria-label="Study Progress & Analytics">
+
+                <div class="analytics-header">
+                    <p class="section-label">STUDY INSIGHTS</p>
+                    <h3>Performance &amp; Subject Distribution</h3>
+                </div>
+
+                <!-- Analytics Highlights Row -->
+                <div class="stats-grid analytics-stats-grid">
+                    <article class="stat-card">
+                        <span class="stat-label">This Week's Study Time</span>
+                        <h3 id="analytics-week-hours">0.0h</h3>
+                        <p class="stat-description" id="analytics-week-percent">0% of weekly goal</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-label">This Month's Study Time</span>
+                        <h3 id="analytics-month-hours">0.0h</h3>
+                        <p class="stat-description" id="analytics-month-days">Across this calendar month</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-label">All-Time Study Time</span>
+                        <h3 id="analytics-alltime-hours">0.0h</h3>
+                        <p class="stat-description">Total recorded study</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-label">Active Streak</span>
+                        <h3 id="analytics-streak-days">1 Day</h3>
+                        <p class="stat-description">Consecutive study days</p>
+                    </article>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Subject Breakdown Card -->
+                    <article class="panel analytics-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">SUBJECT FOCUS</p>
+                                <h4>Study Hours by Subject</h4>
+                            </div>
+                        </div>
+                        <div id="subject-distribution-list" class="subject-distribution-list">
+                            <!-- Dynamic progress bars per subject -->
+                        </div>
+                        <div id="subject-distribution-empty" class="empty-state compact">
+                            <p class="empty-desc">No study hours logged yet. Complete tasks to see your subject breakdown!</p>
+                        </div>
+                    </article>
+
+                    <!-- Status Breakdown & Task Health -->
+                    <article class="panel analytics-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">TASK COMPLETION</p>
+                                <h4>Task Health &amp; Balance</h4>
+                            </div>
+                        </div>
+
+                        <div class="completion-ratio-widget">
+                            <div class="ratio-bar-container">
+                                <div id="ratio-bar-completed" class="ratio-segment completed" style="width: 0%;"></div>
+                                <div id="ratio-bar-pending" class="ratio-segment pending" style="width: 100%;"></div>
+                            </div>
+                            <div class="ratio-legend">
+                                <span class="legend-item"><span class="legend-dot dot-completed"></span> Completed: <strong id="ratio-completed-val">0</strong></span>
+                                <span class="legend-item"><span class="legend-dot dot-pending"></span> Pending: <strong id="ratio-pending-val">0</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="priority-distribution-block">
+                            <h5>Tasks by Priority</h5>
+                            <div class="priority-bars-container" id="priority-distribution-list">
+                                <!-- High, Medium, Low breakdown -->
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+
+            <!-- =========================================
+                 VIEW 5: STUDY TIMER (POMODORO)
+                 ========================================= -->
+            <div class="view-container" id="view-timer" role="region" aria-label="Study Focus Timer">
+
+                <div class="timer-view-card">
+                    <p class="section-label">POMODORO FOCUS TIMER</p>
+                    <h2>Deep Study Session</h2>
+                    <p class="timer-view-subtitle">Stay focused in intervals, avoid burnout, and automatically record your study time.</p>
+
+                    <!-- Mode Selector Pills -->
+                    <div class="timer-mode-selector" role="tablist" aria-label="Timer Mode">
+                        <button type="button" class="mode-pill active" data-mode="focus" id="mode-pill-focus">Focus (25m)</button>
+                        <button type="button" class="mode-pill" data-mode="shortBreak" id="mode-pill-short">Short Break (5m)</button>
+                        <button type="button" class="mode-pill" data-mode="longBreak" id="mode-pill-long">Long Break (15m)</button>
+                    </div>
+
+                    <!-- Large Digital Display -->
+                    <div class="timer-clock-container">
+                        <div class="timer-circle-wrap">
+                            <svg class="timer-svg" viewBox="0 0 200 200" aria-hidden="true">
+                                <circle class="timer-circle-bg" cx="100" cy="100" r="90" />
+                                <circle class="timer-circle-progress" id="timer-progress-svg" cx="100" cy="100" r="90" />
+                            </svg>
+                            <div class="timer-display-inner">
+                                <span class="timer-display" id="main-timer-digits" aria-live="polite">25:00</span>
+                                <span class="timer-phase-name" id="main-timer-phase">FOCUS INTERVAL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associate with a Task -->
+                    <div class="timer-task-binding">
+                        <label for="timer-active-task-select">Log this session to task (optional):</label>
+                        <select id="timer-active-task-select" class="task-filter">
+                            <option value="">General Study (Not linked to specific task)</option>
+                        </select>
+                    </div>
+
+                    <!-- Action Controls -->
+                    <div class="timer-controls-row">
+                        <button type="button" class="timer-btn timer-btn-primary" id="timer-start-pause-btn">
+                            Start Focus
+                        </button>
+                        <button type="button" class="timer-btn timer-btn-secondary" id="timer-reset-btn">
+                            Reset
+                        </button>
+                        <button type="button" class="timer-btn timer-btn-secondary" id="timer-skip-btn">
+                            Skip
+                        </button>
+                    </div>
+
+                    <!-- Sound and Configuration Toggle -->
+                    <div class="timer-settings-row">
+                        <label class="toggle-control">
+                            <input type="checkbox" id="timer-sound-toggle" checked>
+                            <span>Audio alert on completion</span>
+                        </label>
+                        <button type="button" class="text-button" id="btn-open-timer-settings">Customize Durations</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- =========================================
+                 VIEW 6: SETTINGS & DATA BACKUP
+                 ========================================= -->
+            <div class="view-container" id="view-settings" role="region" aria-label="Settings and Data Backup">
+
+                <div class="settings-grid">
+
+                    <!-- Study Preferences -->
+                    <article class="panel settings-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">PREFERENCES</p>
+                                <h3>Study Goals &amp; Timer Settings</h3>
+                            </div>
+                        </div>
+
+                        <form id="settings-preferences-form" class="settings-form">
+                            <div class="form-group">
+                                <label for="pref-weekly-goal">Weekly Study Goal (Hours)</label>
+                                <input type="number" id="pref-weekly-goal" min="1" max="100" step="0.5" value="10" required>
+                                <span class="field-hint">Your target study hours to complete each week.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pref-focus-time">Focus Duration (Minutes)</label>
+                                <input type="number" id="pref-focus-time" min="5" max="120" step="1" value="25" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pref-short-break">Short Break Duration (Minutes)</label>
+                                <input type="number" id="pref-short-break" min="1" max="30" step="1" value="5" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pref-long-break">Long Break Duration (Minutes)</label>
+                                <input type="number" id="pref-long-break" min="1" max="60" step="1" value="15" required>
+                            </div>
+
+                            <button type="submit" class="primary-button" style="width: auto; margin-top: 10px;">
+                                Save Preferences
+                            </button>
+                        </form>
+                    </article>
+
+                    <!-- Data Backup, Export & Import -->
+                    <article class="panel settings-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">DATA PORTABILITY</p>
+                                <h3>Backup &amp; Restore</h3>
+                            </div>
+                        </div>
+
+                        <p class="settings-desc">StudyFlow stores your tasks and progress securely in your browser. Export a JSON backup to save or transfer your data across devices.</p>
+
+                        <div class="backup-actions-list">
+                            <div class="backup-action-item">
+                                <div>
+                                    <strong>Export Data (Backup)</strong>
+                                    <p class="field-hint">Download all your tasks, goals, and history as a JSON file.</p>
+                                </div>
+                                <button type="button" class="secondary-button" id="btn-export-data">
+                                    Export JSON
+                                </button>
+                            </div>
+
+                            <div class="backup-action-item">
+                                <div>
+                                    <strong>Import Data (Restore)</strong>
+                                    <p class="field-hint">Restore your tasks from a previous StudyFlow backup file.</p>
+                                </div>
+                                <div>
+                                    <input type="file" id="import-file-input" accept=".json,application/json" class="hidden">
+                                    <button type="button" class="secondary-button" id="btn-trigger-import">
+                                        Import JSON
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="danger-zone">
+                            <h4>Danger Zone</h4>
+                            <p class="field-hint">Reset all local storage data. This action cannot be undone.</p>
+                            <button type="button" class="danger-button" id="btn-clear-all-data">
+                                Reset All StudyFlow Data
+                            </button>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </main>
 
     </div>
 
-</div>
-</main>
+    <!-- =========================================
+         MODALS & DIALOGS
+         ========================================= -->
 
+    <!-- 1. Task Modal (Add / Edit) -->
+    <div id="task-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Task</h3>
+                <button id="close-modal" class="close-button" type="button" aria-label="Close task form">&times;</button>
+            </div>
+
+            <form id="task-form" novalidate>
+                <div class="form-group">
+                    <label for="task-title">Task Title <span class="required" aria-hidden="true">*</span></label>
+                    <input
+                        type="text"
+                        id="task-title"
+                        name="title"
+                        placeholder="e.g. Complete JavaScript practice"
+                        required
+                        maxlength="120"
+                    >
+                    <span class="error-message" id="err-task-title"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="task-subject">Subject <span class="required" aria-hidden="true">*</span></label>
+                    <input
+                        type="text"
+                        id="task-subject"
+                        name="subject"
+                        placeholder="e.g. Web Development, Math, History"
+                        list="subject-suggestions"
+                        required
+                        maxlength="40"
+                    >
+                    <datalist id="subject-suggestions">
+                        <!-- Populated by JS with existing subjects -->
+                    </datalist>
+                    <span class="error-message" id="err-task-subject"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" name="priority" required>
+                            <option value="high">High (Urgent)</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group half">
+                        <label for="task-hours">Estimated Hours</label>
+                        <input
+                            type="number"
+                            id="task-hours"
+                            name="hours"
+                            min="0.25"
+                            max="24"
+                            step="0.25"
+                            value="1"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="task-date">Scheduled Due Date <span class="required" aria-hidden="true">*</span></label>
+                    <input
+                        type="date"
+                        id="task-date"
+                        name="date"
+                        required
+                    >
+                    <span class="error-message" id="err-task-date"></span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancel-task" class="secondary-button">
+                        Cancel
+                    </button>
+                    <button type="submit" class="primary-button" id="btn-submit-task">
+                        Add Task
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- JavaScript file -->
+    <!-- 2. Weekly Goal Modal -->
+    <div id="goal-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="goal-modal-title">
+        <div class="modal-content modal-compact">
+            <div class="modal-header">
+                <h3 id="goal-modal-title">Set Weekly Study Target</h3>
+                <button id="close-goal-modal" class="close-button" type="button" aria-label="Close goal dialog">&times;</button>
+            </div>
+            <form id="goal-form">
+                <div class="form-group">
+                    <label for="goal-input-hours">Target Hours per Week</label>
+                    <input type="number" id="goal-input-hours" min="1" max="100" step="0.5" value="10" required>
+                    <span class="field-hint">Recommended for full-time students: 10–25 hours.</span>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-goal-modal" class="secondary-button">Cancel</button>
+                    <button type="submit" class="primary-button">Save Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Import Confirmation Modal -->
+    <div id="import-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="import-modal-title">Import StudyFlow Data</h3>
+                <button id="close-import-modal" class="close-button" type="button" aria-label="Close import dialog">&times;</button>
+            </div>
+            <div class="import-preview-body">
+                <p>A valid backup file was selected with the following contents:</p>
+                <ul class="import-stats-list" id="import-preview-stats">
+                    <!-- Populated by JS -->
+                </ul>
+                <div class="import-choice-group">
+                    <label class="radio-option">
+                        <input type="radio" name="import-mode" value="merge" checked>
+                        <span><strong>Merge:</strong> Add imported tasks to existing tasks without deleting current ones.</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="import-mode" value="replace">
+                        <span><strong>Replace:</strong> Overwrite all current tasks and settings with the backup file.</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="cancel-import-modal" class="secondary-button">Cancel</button>
+                <button type="button" id="confirm-import-btn" class="primary-button">Proceed with Import</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification container -->
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Hidden audio element for fallback or Web Audio synthesis -->
+    <div id="audio-synthesizer" class="sr-only" aria-hidden="true"></div>
+
+    <!-- JavaScript Application Entry Point -->
     <script src="script.js"></script>
 
 </body>
